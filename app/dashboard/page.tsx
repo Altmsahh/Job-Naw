@@ -38,7 +38,7 @@ async function DashboardPage() {
 
     return (
         <div className="min-h-screen bg-background">
-            <div className="container mx-auto p-6">
+            <div className="container mx-auto p-4 sm:p-6">
                 <div className="mb-6">
                     <h1 className="text-3xl font-bold text-foreground">Job Hunt</h1>
                     <p className="text-muted-foreground">Track your job applications</p>

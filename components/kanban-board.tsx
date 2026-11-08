@@ -95,7 +95,7 @@ function DroppableColumn({
   const sortedJobs =
     column.jobApplications?.sort((a, b) => a.order - b.order) || [];
   return (
-    <Card className="min-w-[300px] flex-shrink-0 shadow-md p-0">
+    <Card id={`column-${column._id}`} className="w-[calc(100vw-2.5rem)] sm:w-[320px] sm:min-w-[320px] shrink-0 snap-center shadow-md p-0">
       <CardHeader
         className={`${config.color} text-white rounded-t-lg pb-3 pt-3`}
       >
@@ -312,7 +312,30 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
       onDragEnd={handleDragEnd}
     >
       <div className="space-y-4">
-        <div className="flex gap-4 overflow-x-auto pb-4">
+                {/* Mobile Column Quick Switcher */}
+        <div className="flex sm:hidden gap-1.5 overflow-x-auto pb-1 -mx-1 px-1">
+          {sortedColumns.map((col) => {
+            const count = col.jobApplications?.length || 0;
+            return (
+              <button
+                key={col._id}
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById(`column-${col._id}`);
+                  el?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-border bg-card text-foreground whitespace-nowrap active:scale-95 transition-all shrink-0"
+              >
+                <span>{col.name}</span>
+                <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground font-semibold">
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth">
           {sortedColumns.map((col, key) => {
             const config = COLUMN_CONFIG[key] || {
               color: "bg-gray-500",

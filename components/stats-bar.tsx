@@ -26,7 +26,7 @@ interface StatCardProps {
 
 function StatCard({ icon, label, value, subtitle, color, bgColor }: StatCardProps) {
   return (
-    <div className={`flex items-center gap-3 rounded-xl ${bgColor} px-4 py-3 min-w-[160px]`}>
+    <div className={`flex items-center gap-3 rounded-xl ${bgColor} px-3 py-2 sm:px-4 sm:py-3 min-w-0 sm:min-w-[150px]`}>
       <div className={`rounded-lg ${color} p-2 text-white`}>{icon}</div>
       <div>
         <p className="text-xs font-medium text-muted-foreground">{label}</p>
@@ -93,7 +93,7 @@ export default function StatsBar({ board }: StatsBarProps) {
       {expanded && (
         <div className="px-5 pb-4 space-y-4">
           {/* Main Stats Cards */}
-          <div className="flex gap-3 overflow-x-auto pb-1">
+          <div className="grid grid-cols-2 sm:flex sm:gap-3 gap-2 pb-1">
             <StatCard
               icon={<Briefcase className="h-4 w-4" />}
               label="Total Applications"
