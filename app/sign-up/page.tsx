@@ -40,12 +40,14 @@ export default function SignUp() {
             });
 
             if (result.error) {
-                setError(result.error.message ?? "Failed to sign up");
+                console.error("Sign up error:", result.error);
+                setError(result.error.message || result.error.statusText || "Failed to sign up");
             } else {
                 router.push("/dashboard");
             }
-        } catch (err) {
-            setError("An unexpected error occurred");
+        } catch (err: any) {
+            console.error("Unexpected sign up error:", err);
+            setError(err?.message || "An unexpected error occurred");
         } finally {
             setLoading(false);
         }

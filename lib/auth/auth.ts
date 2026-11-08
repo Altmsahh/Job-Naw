@@ -10,6 +10,13 @@ const client = mongooseInstance.connection.getClient();
 const db = client.db();
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL,
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://*.vercel.app",
+    process.env.BETTER_AUTH_URL || "",
+    process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "",
+  ].filter(Boolean),
   database: mongodbAdapter(db, {
     client,
     transaction: false,
@@ -27,8 +34,12 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
-          if (user.id) {
-            await initializeUserBoard(user.id);
+          try {
+            if (user?.id) {
+              await initializeUserBoard(user.id);
+            }
+          } catch (error) {
+            console.error("Failed to initialize board for new user:", error);
           }
         },
       },
