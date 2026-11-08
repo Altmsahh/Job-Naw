@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn, signUp } from "@/lib/auth/auth-client";
+import { signIn } from "@/lib/auth/auth-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -38,12 +38,14 @@ export default function SignIn() {
             });
 
             if (result.error) {
-                setError(result.error.message ?? "Failed to sign in");
+                console.error("Sign in error:", result.error);
+                setError(result.error.message || result.error.statusText || "Failed to sign in");
             } else {
                 router.push("/dashboard");
             }
-        } catch (err) {
-            setError("An unexpected error occurred");
+        } catch (err: any) {
+            console.error("Unexpected sign in error:", err);
+            setError(err?.message || "An unexpected error occurred");
         } finally {
             setLoading(false);
         }

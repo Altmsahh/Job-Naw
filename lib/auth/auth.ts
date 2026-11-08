@@ -10,6 +10,7 @@ const client = mongooseInstance.connection.getClient();
 const db = client.db();
 
 export const auth = betterAuth({
+  secret: process.env.BETTER_AUTH_SECRET || "job_naw_default_secret_key_secure_32chars",
   baseURL: process.env.BETTER_AUTH_URL,
   trustedOrigins: [
     "http://localhost:3000",
